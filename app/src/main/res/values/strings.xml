@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Buds Tiles</string>
+
+    <string name="off">Off</string>
+    <string name="transparency">Transparency</string>
+    <string name="noise_cancelling">Noise cancelling</string>
+
+    <string name="no_earbuds">No earbuds selected</string>
+    <string name="choose_earbuds">Choose</string>
+    <string name="choose_earbuds_title">Choose your earbuds</string>
+    <string name="no_paired_devices">No paired devices. Pair your earbuds in Bluetooth settings first.</string>
+    <string name="refresh">Refresh</string>
+    <string name="status_unknown">Tap Refresh to read the current mode</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="status_mode">%1$s</string>
+    <string name="status_mode_battery">%1$s · %2$s</string>
+    <string name="status_error">Couldn\'t reach the earbuds: %1$s</string>
+    <string name="battery_left">L %1$d%%</string>
+    <string name="battery_right">R %1$d%%</string>
+    <string name="battery_case">Case %1$d%%</string>
+    <string name="permission_needed">Bluetooth permission is needed to talk to your earbuds.</string>
+    <string name="grant">Grant</string>
+
+    <string name="noise_control">Noise control</string>
+    <string name="anc_strength">Noise-cancelling strength</string>
+    <string name="anc_strength_hint">Used by the Noise cancelling tile. Deep is the strongest; other levels depend on your model.</string>
+    <string name="anc_deep">Deep</string>
+    <string name="anc_medium">Medium</string>
+    <string name="anc_light">Light</string>
+    <string name="anc_smart">Smart</string>
+    <string name="anc_adaptive">Adaptive</string>
+
+    <string name="quick_settings_tiles">Quick Settings tiles</string>
+    <string name="tiles_explained">Add the Noise cancelling and Transparency tiles to Quick Settings. Tap a tile to switch to that mode; tap it again to turn noise control off.</string>
+    <string name="add_noise_cancelling_tile">Add Noise cancelling</string>
+    <string name="add_transparency_tile">Add Transparency</string>
+    <string name="heymelody_note">If the earbuds can\'t be reached, force-stop HeyMelody: only one app can hold the control channel.</string>
+
+    <string name="tile_on">On</string>
+    <string name="tile_off">Off</string>
+    <string name="tile_switching">Switching…</string>
+    <string name="tile_failed">Failed. Tap to retry</string>
+</resources>
