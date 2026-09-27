@@ -13,6 +13,7 @@ import io.github.raja2102598.budstiles.data.Earbuds
 import io.github.raja2102598.budstiles.data.Settings
 import io.github.raja2102598.budstiles.protocol.Battery
 import io.github.raja2102598.budstiles.protocol.NoiseMode
+import java.io.IOException
 import java.util.concurrent.Executors
 
 /**
@@ -69,6 +70,15 @@ object Buds {
         }
     }
 
+    /** A failure with a message fit to show the user. */
+    class BudsException(message: String, cause: Throwable) : Exception(message, cause)
+
+    private fun userMessage(e: Throwable): String = when (e) {
+        is SecurityException -> "Bluetooth permission missing"
+        is IOException, is IllegalStateException -> e.message ?: "Connection failed"
+        else -> "Unexpected error"
+    }
+
     private fun <T> run(context: Context, done: (Result<T>) -> Unit, block: (BudsSession) -> T) {
         val app = context.applicationContext
         worker.execute {
@@ -76,8 +86,10 @@ object Buds {
                 check(hasPermission(app)) { "Bluetooth permission not granted" }
                 val earbuds = checkNotNull(Settings(app).earbuds) { "No earbuds selected" }
                 BudsSession.open(app, earbuds).use(block)
+            }.recoverCatching { e ->
+                Log.w(TAG, "Operation failed", e)
+                throw BudsException(userMessage(e), e)
             }
-            result.exceptionOrNull()?.let { Log.w(TAG, "Operation failed", it) }
             main.post { done(result) }
         }
     }

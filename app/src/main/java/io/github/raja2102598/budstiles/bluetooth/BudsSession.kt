@@ -1,9 +1,12 @@
 package io.github.raja2102598.budstiles.bluetooth
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.bluetooth.BluetoothManager
 import android.bluetooth.BluetoothSocket
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Build
 import android.util.Log
 import io.github.raja2102598.budstiles.data.Earbuds
 import io.github.raja2102598.budstiles.protocol.AncLevel
@@ -119,7 +122,15 @@ class BudsSession private constructor(private val socket: BluetoothSocket) : Clo
                 ?: throw IOException("Bluetooth is not available")
             if (!adapter.isEnabled) throw IOException("Bluetooth is off")
             val device = adapter.getRemoteDevice(earbuds.address)
-            adapter.cancelDiscovery()
+            // An ongoing discovery scan makes RFCOMM connects fail. We never start
+            // one, and cancelling needs BLUETOOTH_SCAN on Android 12+, so only
+            // cancel when that permission happens to be granted.
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S ||
+                context.checkSelfPermission(Manifest.permission.BLUETOOTH_SCAN) ==
+                PackageManager.PERMISSION_GRANTED
+            ) {
+                adapter.cancelDiscovery()
+            }
 
             for (uuid in OpoProtocol.SERVICE_UUIDS) {
                 try {
