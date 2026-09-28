@@ -31,6 +31,16 @@ class Settings(context: Context) {
         get() = prefs.getString(KEY_MODE, null)?.let { runCatching { NoiseMode.valueOf(it) }.getOrNull() }
         set(value) = prefs.edit().putString(KEY_MODE, value?.name).apply()
 
+    /** Whether the earbuds are connected to the phone; null if not known yet. */
+    var connected: Boolean?
+        get() = if (prefs.contains(KEY_CONNECTED)) prefs.getBoolean(KEY_CONNECTED, false) else null
+        set(value) {
+            if (value == connected) return
+            val edit = prefs.edit()
+            if (value == null) edit.remove(KEY_CONNECTED) else edit.putBoolean(KEY_CONNECTED, value)
+            edit.apply()
+        }
+
     var ancLevel: AncLevel
         get() = prefs.getString(KEY_ANC_LEVEL, null)
             ?.let { runCatching { AncLevel.valueOf(it) }.getOrNull() }
@@ -50,5 +60,6 @@ class Settings(context: Context) {
         const val KEY_NAME = "name"
         const val KEY_MODE = "mode"
         const val KEY_ANC_LEVEL = "anc_level"
+        const val KEY_CONNECTED = "connected"
     }
 }

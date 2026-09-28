@@ -12,6 +12,7 @@
     <string name="no_paired_devices">No paired devices. Pair your earbuds in Bluetooth settings first.</string>
     <string name="refresh">Refresh</string>
     <string name="status_unknown">Tap Refresh to read the current mode</string>
+    <string name="status_not_connected">Not connected</string>
     <string name="status_connecting">Connecting…</string>
     <string name="status_mode">%1$s</string>
     <string name="status_mode_battery">%1$s · %2$s</string>
@@ -39,6 +40,7 @@
 
     <string name="tile_on">On</string>
     <string name="tile_off">Off</string>
+    <string name="tile_not_connected">Not connected</string>
     <string name="tile_switching">Switching…</string>
     <string name="tile_failed">Failed. Tap to retry</string>
 </resources>

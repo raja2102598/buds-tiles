@@ -35,6 +35,30 @@ object Buds {
             context.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) ==
             PackageManager.PERMISSION_GRANTED
 
+    /**
+     * Checks whether the chosen earbuds are connected right now and saves the
+     * answer to [Settings.connected]. Uses the hidden BluetoothDevice.isConnected(),
+     * so the answer stays unchanged if a device doesn't allow it; the ACL
+     * broadcasts in [ConnectionReceiver] keep the value current either way.
+     */
+    @SuppressLint("MissingPermission")
+    fun updateConnectionState(context: Context) {
+        val settings = Settings(context)
+        val earbuds = settings.earbuds ?: return
+        if (!hasPermission(context)) return
+        val adapter = context.getSystemService(BluetoothManager::class.java)?.adapter ?: return
+        if (!adapter.isEnabled) {
+            settings.connected = false
+            return
+        }
+        try {
+            val device = adapter.getRemoteDevice(earbuds.address)
+            settings.connected = device.javaClass.getMethod("isConnected").invoke(device) as Boolean
+        } catch (e: Exception) {
+            Log.d(TAG, "isConnected() unavailable: ${e.message}")
+        }
+    }
+
     /** Paired devices, earbud-looking names first. */
     @SuppressLint("MissingPermission")
     fun pairedDevices(context: Context): List<Earbuds> {
@@ -86,6 +110,7 @@ object Buds {
                 check(hasPermission(app)) { "Bluetooth permission not granted" }
                 val earbuds = checkNotNull(Settings(app).earbuds) { "No earbuds selected" }
                 BudsSession.open(app, earbuds).use(block)
+                    .also { Settings(app).connected = true }
             }.recoverCatching { e ->
                 Log.w(TAG, "Operation failed", e)
                 throw BudsException(userMessage(e), e)

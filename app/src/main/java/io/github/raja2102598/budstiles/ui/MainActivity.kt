@@ -67,6 +67,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var settingsObserver: AutoCloseable? = null
+
+    override fun onStart() {
+        super.onStart()
+        // Connection changes arrive through ConnectionReceiver; redraw when they do.
+        settingsObserver = settings.observe { render() }
+        Buds.updateConnectionState(this)
+        render()
+    }
+
+    override fun onStop() {
+        settingsObserver?.close()
+        settingsObserver = null
+        super.onStop()
+    }
+
     private fun onPermissionReady() {
         if (settings.earbuds == null) chooseEarbuds() else refresh()
     }
@@ -79,13 +95,14 @@ class MainActivity : AppCompatActivity() {
         binding.status.text = statusOverride ?: statusText()
 
         updatingModeGroup = true
-        val mode = settings.noiseMode
+        val mode = settings.noiseMode.takeIf { settings.connected != false }
         if (mode == null) binding.modeGroup.clearChecked()
         else binding.modeGroup.check(modeButtons.getValue(mode))
         updatingModeGroup = false
     }
 
     private fun statusText(): String {
+        if (settings.connected == false) return getString(R.string.status_not_connected)
         val mode = settings.noiseMode ?: return getString(R.string.status_unknown)
         val modeText = getString(mode.labelRes())
         val batteryText = battery?.let(::batteryText)
@@ -127,6 +144,8 @@ class MainActivity : AppCompatActivity() {
             .setItems(devices.map { it.name }.toTypedArray()) { _, which ->
                 settings.earbuds = devices[which]
                 settings.noiseMode = null
+                settings.connected = null
+                Buds.updateConnectionState(this)
                 battery = null
                 refresh()
             }

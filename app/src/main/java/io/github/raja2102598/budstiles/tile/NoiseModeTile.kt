@@ -33,6 +33,7 @@ abstract class NoiseModeTile(
         // Both tiles are visible at once, so each redraws itself when the other
         // (or the app) changes the mode.
         settingsObserver = settings.observe { if (!switching) render() }
+        Buds.updateConnectionState(this)
         render()
     }
 
@@ -61,16 +62,23 @@ abstract class NoiseModeTile(
 
     private fun render(subtitleOverride: String? = null) {
         val tile = qsTile ?: return
-        val active = settings.noiseMode == mode
+        val available = settings.earbuds != null && settings.connected != false
+        val active = available && settings.noiseMode == mode
         tile.label = getString(labelRes)
         tile.icon = Icon.createWithResource(this, iconRes)
         tile.state = when {
-            settings.earbuds == null -> Tile.STATE_UNAVAILABLE
+            !available -> Tile.STATE_UNAVAILABLE
             active -> Tile.STATE_ACTIVE
             else -> Tile.STATE_INACTIVE
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            tile.subtitle = subtitleOverride ?: getString(if (active) R.string.tile_on else R.string.tile_off)
+            tile.subtitle = subtitleOverride ?: getString(
+                when {
+                    !available -> R.string.tile_not_connected
+                    active -> R.string.tile_on
+                    else -> R.string.tile_off
+                },
+            )
         }
         tile.updateTile()
     }

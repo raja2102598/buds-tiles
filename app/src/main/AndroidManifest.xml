@@ -25,6 +25,17 @@
             </intent-filter>
         </activity>
 
+        <!-- Connection changes, so the tiles never show a stale mode. -->
+        <receiver
+            android:name=".bluetooth.ConnectionReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
+                <action android:name="android.bluetooth.device.action.ACL_DISCONNECTED" />
+                <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".tile.NoiseCancellingTile"
             android:exported="true"
