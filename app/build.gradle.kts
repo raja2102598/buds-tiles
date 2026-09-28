@@ -11,14 +11,31 @@ android {
         applicationId = "io.github.raja2102598.budstiles"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "1.0.0"
+        // The release workflow overrides these from the git tag and run number.
+        versionCode = (findProperty("versionCode") as String?)?.toInt() ?: 1
+        versionName = (findProperty("versionName") as String?) ?: "1.0.0"
+    }
+
+    // Release signing comes from the environment (GitHub Actions secrets), so
+    // the key never lives in the repository. Without it, release builds are unsigned.
+    val keystorePath = System.getenv("SIGNING_KEYSTORE_PATH")
+    val keystorePassword = System.getenv("SIGNING_PASSWORD")
+    val releaseSigning = if (keystorePath != null && keystorePassword != null) {
+        signingConfigs.create("release") {
+            storeFile = file(keystorePath)
+            storePassword = keystorePassword
+            keyAlias = "buds-tiles"
+            keyPassword = keystorePassword
+        }
+    } else {
+        null
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"))
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            signingConfig = releaseSigning
         }
     }
     compileOptions {

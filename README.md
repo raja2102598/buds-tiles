@@ -32,8 +32,9 @@ Android 8.0 or newer. Tested on a Samsung phone with One UI.
 
 ## Install
 
-Download the APK from the [latest build](https://github.com/raja2102598/buds-tiles/actions/workflows/build.yml)
-(open the newest run, then the `buds-tiles-debug-apk` artifact), and install it.
+Download `buds-tiles-<version>.apk` from the
+[latest release](https://github.com/raja2102598/buds-tiles/releases/latest)
+and install it. Updates from later releases install over it.
 
 1. Open **Buds Tiles**, allow the Bluetooth permission and choose your earbuds.
    They must already be paired in Android's Bluetooth settings.
@@ -68,6 +69,10 @@ Requires JDK 17 and the Android SDK (platform 34).
 ./gradlew :app:testDebugUnitTest   # protocol tests, run on the JVM
 ./gradlew :app:assembleDebug       # app/build/outputs/apk/debug/app-debug.apk
 ```
+
+Releases are built by GitHub Actions: pushing a tag such as `v1.0.1` runs the
+tests, builds an APK signed with the key stored in the repository secrets
+(`SIGNING_KEYSTORE_BASE64`, `SIGNING_PASSWORD`) and publishes a release.
 
 Code layout:
 
