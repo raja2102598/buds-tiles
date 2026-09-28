@@ -20,7 +20,6 @@ import io.github.raja2102598.budstiles.protocol.AncLevel
 import io.github.raja2102598.budstiles.protocol.Battery
 import io.github.raja2102598.budstiles.protocol.NoiseMode
 import io.github.raja2102598.budstiles.tile.NoiseCancellingTile
-import io.github.raja2102598.budstiles.tile.NoiseModeTile
 import io.github.raja2102598.budstiles.tile.TransparencyTile
 
 class MainActivity : AppCompatActivity() {
@@ -104,7 +103,7 @@ class MainActivity : AppCompatActivity() {
         if (settings.earbuds == null) return
         render(getString(R.string.status_connecting))
         Buds.refresh(this) { result ->
-            result.onSuccess { battery = it.battery; NoiseModeTile.refreshAll(this) }
+            result.onSuccess { battery = it.battery }
             render(result.exceptionOrNull()?.let { getString(R.string.status_error, it.message) })
         }
     }
@@ -112,7 +111,6 @@ class MainActivity : AppCompatActivity() {
     private fun setMode(mode: NoiseMode) {
         render(getString(R.string.status_connecting))
         Buds.setNoiseMode(this, mode) { result ->
-            NoiseModeTile.refreshAll(this)
             render(result.exceptionOrNull()?.let { getString(R.string.status_error, it.message) })
         }
     }
@@ -130,7 +128,6 @@ class MainActivity : AppCompatActivity() {
                 settings.earbuds = devices[which]
                 settings.noiseMode = null
                 battery = null
-                NoiseModeTile.refreshAll(this)
                 refresh()
             }
             .show()

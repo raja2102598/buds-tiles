@@ -1,8 +1,6 @@
 package io.github.raja2102598.budstiles.tile
 
 import android.app.PendingIntent
-import android.content.ComponentName
-import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
@@ -28,10 +26,20 @@ abstract class NoiseModeTile(
 
     private val settings by lazy { Settings(this) }
     private var switching = false
+    private var settingsObserver: AutoCloseable? = null
 
     override fun onStartListening() {
         super.onStartListening()
+        // Both tiles are visible at once, so each redraws itself when the other
+        // (or the app) changes the mode.
+        settingsObserver = settings.observe { if (!switching) render() }
         render()
+    }
+
+    override fun onStopListening() {
+        settingsObserver?.close()
+        settingsObserver = null
+        super.onStopListening()
     }
 
     override fun onClick() {
@@ -48,7 +56,6 @@ abstract class NoiseModeTile(
         Buds.setNoiseMode(this, target) { result ->
             switching = false
             render(if (result.isFailure) getString(R.string.tile_failed) else null)
-            refreshAll(this)
         }
     }
 
@@ -77,15 +84,6 @@ abstract class NoiseModeTile(
         } else {
             @Suppress("DEPRECATION", "StartActivityAndCollapseDeprecated")
             startActivityAndCollapse(intent)
-        }
-    }
-
-    companion object {
-        /** Ask the system to redraw every tile, e.g. after the mode changed. */
-        fun refreshAll(context: Context) {
-            for (cls in listOf(NoiseCancellingTile::class.java, TransparencyTile::class.java)) {
-                requestListeningState(context, ComponentName(context, cls))
-            }
         }
     }
 }
