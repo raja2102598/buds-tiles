@@ -89,6 +89,8 @@ set-mode values, verified on OnePlus hardware),
 [cracked-oneplus-buds](https://github.com/AasheeshLikePanner/cracked-oneplus-buds).
 This app is an independent implementation; no code was copied.
 
+Icons are from [Material Symbols](https://fonts.google.com/icons) (Apache 2.0).
+
 Not affiliated with OnePlus, OPPO, realme or Samsung.
 
 ## License
