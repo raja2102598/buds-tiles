@@ -43,6 +43,26 @@ and install it. Updates from later releases install over it.
 3. If the earbuds can't be reached, force-stop HeyMelody. Only one app can hold
    the control channel at a time.
 
+## Automation
+
+The app has three shortcuts: **Noise cancelling**, **Transparency** and
+**Noise control off**. Long-press the app icon to see them. Automation apps can
+run them too:
+
+- **Samsung Modes and Routines:** in a routine's *Then* actions, choose the
+  app action / app shortcut option, pick Buds Tiles, then the shortcut.
+- **Tasker, MacroDroid and similar apps:** start an activity with one of these
+  intent actions (package `io.github.raja2102598.budstiles`):
+
+  | Action | Mode |
+  |---|---|
+  | `io.github.raja2102598.budstiles.action.NOISE_CANCELLING` | Noise cancelling |
+  | `io.github.raja2102598.budstiles.action.TRANSPARENCY` | Transparency |
+  | `io.github.raja2102598.budstiles.action.OFF` | Off |
+
+Shortcuts run in the background with no screen; a short message appears only
+if the earbuds can't be reached.
+
 ## How it works
 
 The earbuds speak a small binary protocol over a classic-Bluetooth RFCOMM

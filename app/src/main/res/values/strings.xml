@@ -38,6 +38,13 @@
     <string name="add_transparency_tile">Add Transparency</string>
     <string name="heymelody_note">If the earbuds can\'t be reached, force-stop HeyMelody: only one app can hold the control channel.</string>
 
+    <string name="shortcut_noise_cancelling_long">Turn on noise cancelling</string>
+    <string name="shortcut_transparency_long">Turn on transparency</string>
+    <string name="shortcut_off_short">Noise control off</string>
+    <string name="shortcut_off_long">Turn noise control off</string>
+    <string name="shortcut_setup_needed">Open Buds Tiles to choose your earbuds first</string>
+    <string name="shortcut_failed">Couldn\'t reach your earbuds</string>
+
     <string name="tile_on">On</string>
     <string name="tile_off">Off</string>
     <string name="tile_not_connected">Not connected</string>

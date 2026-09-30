@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- App shortcuts: shown on long-press of the launcher icon and usable as
+     actions from Samsung Modes and Routines, Tasker and similar apps. -->
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="noise_cancelling"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_noise_cancelling"
+        android:shortcutShortLabel="@string/noise_cancelling"
+        android:shortcutLongLabel="@string/shortcut_noise_cancelling_long">
+        <intent
+            android:action="io.github.raja2102598.budstiles.action.NOISE_CANCELLING"
+            android:targetPackage="io.github.raja2102598.budstiles"
+            android:targetClass="io.github.raja2102598.budstiles.ui.ShortcutActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="transparency"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_transparency"
+        android:shortcutShortLabel="@string/transparency"
+        android:shortcutLongLabel="@string/shortcut_transparency_long">
+        <intent
+            android:action="io.github.raja2102598.budstiles.action.TRANSPARENCY"
+            android:targetPackage="io.github.raja2102598.budstiles"
+            android:targetClass="io.github.raja2102598.budstiles.ui.ShortcutActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="off"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_off"
+        android:shortcutShortLabel="@string/shortcut_off_short"
+        android:shortcutLongLabel="@string/shortcut_off_long">
+        <intent
+            android:action="io.github.raja2102598.budstiles.action.OFF"
+            android:targetPackage="io.github.raja2102598.budstiles"
+            android:targetClass="io.github.raja2102598.budstiles.ui.ShortcutActivity" />
+    </shortcut>
+</shortcuts>

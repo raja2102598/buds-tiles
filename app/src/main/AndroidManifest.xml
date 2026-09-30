@@ -23,6 +23,25 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
+        </activity>
+
+        <!-- Runs a shortcut or automation action without showing any UI. -->
+        <activity
+            android:name=".ui.ShortcutActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="io.github.raja2102598.budstiles.action.NOISE_CANCELLING" />
+                <action android:name="io.github.raja2102598.budstiles.action.TRANSPARENCY" />
+                <action android:name="io.github.raja2102598.budstiles.action.OFF" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
 
         <!-- Connection changes, so the tiles never show a stale mode. -->
