@@ -66,11 +66,9 @@ abstract class NoiseModeTile(
         val active = available && settings.noiseMode == mode
         tile.label = getString(labelRes)
         tile.icon = Icon.createWithResource(this, iconRes)
-        tile.state = when {
-            !available -> Tile.STATE_UNAVAILABLE
-            active -> Tile.STATE_ACTIVE
-            else -> Tile.STATE_INACTIVE
-        }
+        // Not STATE_UNAVAILABLE: One UI draws that as a dimmed "on" tile, which
+        // reads as active. A disconnected tile should look plainly off.
+        tile.state = if (active) Tile.STATE_ACTIVE else Tile.STATE_INACTIVE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             tile.subtitle = subtitleOverride ?: getString(
                 when {
