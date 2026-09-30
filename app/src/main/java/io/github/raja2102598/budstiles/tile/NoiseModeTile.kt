@@ -50,6 +50,11 @@ abstract class NoiseModeTile(
             openApp()
             return
         }
+        Buds.updateConnectionState(this)
+        if (settings.connected == false) {
+            render()
+            return
+        }
         val target = if (settings.noiseMode == mode) NoiseMode.OFF else mode
         switching = true
         render(getString(R.string.tile_switching))
